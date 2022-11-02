@@ -3,6 +3,7 @@ package database
 import (
 	"database/sql"
 	"fmt"
+	"go_mini-project/config"
 	"log"
 
 	_ "github.com/go-sql-driver/mysql"
@@ -11,9 +12,9 @@ import (
 var DB *sql.DB
 
 var (
-	DB_USERNAME string = "root"
-	DB_PASSWORD string = ""
-	DB_NAME     string = "go_miniproject"
+	DB_USERNAME string = config.GetConfig("DB_USERNAME")
+	DB_PASSWORD string = config.GetConfig("DB_PASSWORD")
+	DB_NAME     string = config.GetConfig("DB_NAME")
 )
 
 func Connect() {
