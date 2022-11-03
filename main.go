@@ -2,7 +2,7 @@ package main
 
 import (
 	"go_mini-project/database"
-	"net/http"
+	"go_mini-project/route"
 
 	"github.com/labstack/echo/v4"
 )
@@ -10,14 +10,9 @@ import (
 func main() {
 	database.Connect()
 
-	// membuat instance echo
-	e := echo.New()
+	server := echo.New()
 
-	// mendaftar route "/" dengan method get
-	e.GET("/", func(c echo.Context) error {
-		return c.String(http.StatusOK, "Hello, World!")
-	})
+	route.SetupRoute(server)
 
-	// menjalankan server
-	e.Logger.Fatal(e.Start(":1323"))
+	server.Logger.Fatal(server.Start(":1323"))
 }

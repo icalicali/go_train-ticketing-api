@@ -160,7 +160,7 @@ func (n *TiketMethodImpl) Update(id string, input model.TiketInput) model.Tiket 
 }
 
 func (n *TiketMethodImpl) Delete(id string) bool {
-	statement, err := database.DB.Prepare("DELETE FROM notes WHERE id=?")
+	statement, err := database.DB.Prepare("DELETE FROM ticket WHERE id=?")
 
 	if err != nil {
 		log.Fatalf("ERROR WHEN DELETING DATA: %s", err)
