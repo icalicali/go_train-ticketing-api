@@ -12,7 +12,7 @@ type TiketService struct {
 // membuat component service yang digunakan oleh controller
 func New() TiketService {
 	return TiketService{
-		Method: &method.TiketMethodImpl{},
+		Method: &method.TiketMethodCRUD{},
 	}
 }
 

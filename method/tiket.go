@@ -3,181 +3,60 @@ package method
 import (
 	"go_mini-project/database"
 	"go_mini-project/model"
-	"log"
-	"strconv"
-	"time"
 )
 
-type TiketMethodImpl struct{}
+type TiketMethodCRUD struct{}
 
-func (n *TiketMethodImpl) GetAll() []model.Tiket {
-	rows, err := database.DB.Query("SELECT * FROM ticket ORDER BY created_at")
+func (n *TiketMethodCRUD) GetAll() []model.Tiket {
+	var tiket []model.Tiket
 
-	if err != nil {
-		log.Fatalf("ERROR WHEN FETCHING DATA: %s", err)
-	}
+	database.DB.Find(&tiket)
 
-	tiket := model.Tiket{}
-
-	ticket := []model.Tiket{}
-
-	for rows.Next() {
-		var id int
-		var title, description string
-		var createdAt time.Time
-
-		err = rows.Scan(&id, &title, &description, &createdAt)
-
-		if err != nil {
-			log.Fatalf("ERROR WHEN FETCHING DATA: %s", err)
-		}
-
-		tiket.ID = id
-		tiket.Title = title
-		tiket.Description = description
-		tiket.CreatedAt = createdAt
-
-		ticket = append(ticket, tiket)
-	}
-
-	return ticket
+	return tiket
 }
 
-func (c *TiketMethodImpl) GetByID(id string) model.Tiket {
-	rows, err := database.DB.Query("SELECT * FROM ticket WHERE id=?", id)
+func (c *TiketMethodCRUD) GetByID(id string) model.Tiket {
+	var tiket model.Tiket
 
-	if err != nil {
-		log.Fatalf("ERROR WHEN FETCHING DATA: %s", err)
-	}
+	database.DB.First(&tiket, "id = ?", id)
 
-	foundTiket := model.Tiket{}
-
-	for rows.Next() {
-		var id int
-		var title, description string
-		var createdAt time.Time
-
-		err = rows.Scan(&id, &title, &description, &createdAt)
-		if err != nil {
-			log.Fatalf("ERROR WHEN FETCHING DATA: %s", err)
-		}
-
-		foundTiket.ID = id
-		foundTiket.Title = title
-		foundTiket.Description = description
-		foundTiket.CreatedAt = createdAt
-	}
-
-	return foundTiket
+	return tiket
 }
 
-func (n *TiketMethodImpl) Create(input model.TiketInput) model.Tiket {
-	statement, err := database.DB.Prepare("INSERT INTO ticket(title,description) VALUES(?,?)")
-
-	if err != nil {
-		log.Fatalf("ERROR WHEN ADDING DATA: %s", err)
+func (n *TiketMethodCRUD) Create(input model.TiketInput) model.Tiket {
+	var newTiket model.Tiket = model.Tiket{
+		Title:       input.Title,
+		Description: input.Description,
 	}
 
-	result, err := statement.Exec(input.Title, input.Description)
+	var createdTiket model.Tiket = model.Tiket{}
 
-	if err != nil {
-		log.Fatalf("ERROR WHEN ADDING DATA: %s", err)
-	}
+	result := database.DB.Create(&newTiket)
 
-	insertedId, err := result.LastInsertId()
-
-	if err != nil {
-		log.Fatalf("ERROR WHEN ADDING DATA: %s", err)
-	}
-
-	rows, err := database.DB.Query("SELECT * FROM ticket WHERE id=?", int(insertedId))
-
-	if err != nil {
-		log.Fatalf("ERROR WHEN FETCHING DATA: %s", err)
-	}
-
-	createdTiket := model.Tiket{}
-
-	for rows.Next() {
-		var id int
-		var title, description string
-		var createdAt time.Time
-
-		err = rows.Scan(&id, &title, &description, &createdAt)
-		if err != nil {
-			log.Fatalf("ERROR WHEN FETCHING DATA: %s", err)
-		}
-
-		createdTiket.ID = id
-		createdTiket.Title = title
-		createdTiket.Description = description
-		createdTiket.CreatedAt = createdAt
-	}
+	result.Last(&createdTiket)
 
 	return createdTiket
 }
 
-func (n *TiketMethodImpl) Update(id string, input model.TiketInput) model.Tiket {
-	statement, err := database.DB.Prepare("UPDATE ticket SET title=?, description=? WHERE id=?")
+func (n *TiketMethodCRUD) Update(id string, input model.TiketInput) model.Tiket {
+	var tiket model.Tiket = n.GetByID(id)
 
-	if err != nil {
-		log.Fatalf("ERROR WHEN UPDATING DATA: %s", err)
-	}
+	tiket.Title = input.Title
+	tiket.Description = input.Description
 
-	_, err = statement.Exec(input.Title, input.Description, id)
+	database.DB.Save(&tiket)
 
-	if err != nil {
-		log.Fatalf("ERROR WHEN UPDATING DATA: %s", err)
-	}
-
-	noteId, _ := strconv.Atoi(id)
-
-	rows, err := database.DB.Query("SELECT * FROM ticket WHERE id=?", int(noteId))
-
-	if err != nil {
-		log.Fatalf("ERROR WHEN FETCHING DATA: %s", err)
-	}
-
-	updatedNote := model.Tiket{}
-
-	for rows.Next() {
-		var id int
-		var title, description string
-		var createdAt time.Time
-
-		err = rows.Scan(&id, &title, &description, &createdAt)
-		if err != nil {
-			log.Fatalf("ERROR WHEN FETCHING DATA: %s", err)
-		}
-
-		updatedNote.ID = id
-		updatedNote.Title = title
-		updatedNote.Description = description
-		updatedNote.CreatedAt = createdAt
-	}
-
-	return updatedNote
+	return tiket
 }
 
-func (n *TiketMethodImpl) Delete(id string) bool {
-	statement, err := database.DB.Prepare("DELETE FROM ticket WHERE id=?")
+func (n *TiketMethodCRUD) Delete(id string) bool {
+	var tiket model.Tiket = n.GetByID(id)
 
-	if err != nil {
-		log.Fatalf("ERROR WHEN DELETING DATA: %s", err)
-	}
+	result := database.DB.Delete(&tiket)
 
-	result, err := statement.Exec(id)
-
-	if err != nil {
-		log.Fatalf("ERROR WHEN DELETING DATA: %s", err)
-	}
-
-	rowsAffected, _ := result.RowsAffected()
-
-	if rowsAffected == 0 {
+	if result.RowsAffected == 0 {
 		return false
 	}
 
 	return true
-
 }
