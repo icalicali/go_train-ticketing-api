@@ -39,6 +39,6 @@ func Connect() {
 
 	log.Println("Terhubung ke MySQL")
 
-	DB.AutoMigrate(&model.Tiket{}, &model.Kereta{})
+	DB.AutoMigrate(&model.Tiket{}, &model.Kereta{}, &model.Pemesan{})
 
 }
