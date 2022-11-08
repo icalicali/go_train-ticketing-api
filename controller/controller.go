@@ -41,6 +41,14 @@ func Create(c echo.Context) error {
 		})
 	}
 
+	err := input.Validate()
+
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, map[string]string{
+			"message": "validasi gagal",
+		})
+	}
+
 	tiket := tiketService.Create(*input)
 
 	return c.JSON(http.StatusCreated, tiket)
@@ -56,6 +64,14 @@ func Update(c echo.Context) error {
 	}
 
 	var tiketId string = c.Param("id")
+
+	err := input.Validate()
+
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, map[string]string{
+			"message": "validasi gagal",
+		})
+	}
 
 	tiket := tiketService.Update(tiketId, *input)
 

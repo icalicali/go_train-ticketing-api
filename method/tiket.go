@@ -27,6 +27,7 @@ func (n *TiketMethodCRUD) Create(input model.TiketInput) model.Tiket {
 	var newTiket model.Tiket = model.Tiket{
 		Title:       input.Title,
 		Description: input.Description,
+		KeretaID:    input.KeretaID,
 	}
 
 	var createdTiket model.Tiket = model.Tiket{}
@@ -43,6 +44,7 @@ func (n *TiketMethodCRUD) Update(id string, input model.TiketInput) model.Tiket 
 
 	tiket.Title = input.Title
 	tiket.Description = input.Description
+	tiket.KeretaID = input.KeretaID
 
 	database.DB.Save(&tiket)
 
