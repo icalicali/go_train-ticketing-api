@@ -13,4 +13,6 @@ type Tiket struct {
 	DeletedAt   gorm.DeletedAt `json:"deleted_at"`
 	Title       string         `json:"title"`
 	Description string         `json:"description"`
+	Kereta      Kereta         `json:"kereta"`
+	KeretaID    uint           `json:"kereta_id"`
 }

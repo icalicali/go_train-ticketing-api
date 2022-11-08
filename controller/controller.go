@@ -11,10 +11,10 @@ import (
 var tiketService service.TiketService = service.New()
 
 func GetAll(c echo.Context) error {
-	var ticket []model.Tiket = tiketService.GetAll()
+	var tikets []model.Tiket = tiketService.GetAll()
 
 	// melakukan parsing data dalam bentuk JSON
-	return c.JSON(http.StatusOK, ticket)
+	return c.JSON(http.StatusOK, tikets)
 }
 
 func GetByID(c echo.Context) error {

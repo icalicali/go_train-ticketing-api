@@ -10,7 +10,7 @@ type TiketMethodCRUD struct{}
 func (n *TiketMethodCRUD) GetAll() []model.Tiket {
 	var tiket []model.Tiket
 
-	database.DB.Find(&tiket)
+	database.DB.Preload("Kereta").Find(&tiket)
 
 	return tiket
 }
