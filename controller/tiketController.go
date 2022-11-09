@@ -13,7 +13,6 @@ var tiketService service.TiketService = service.New()
 func GetAll(c echo.Context) error {
 	var tikets []model.Tiket = tiketService.GetAll()
 
-	// melakukan parsing data dalam bentuk JSON
 	return c.JSON(http.StatusOK, tikets)
 }
 
@@ -22,7 +21,6 @@ func GetByID(c echo.Context) error {
 
 	tiket := tiketService.GetByID(id)
 
-	// jika data tidak ditemukan
 	if tiket.ID == 0 {
 		return c.JSON(http.StatusNotFound, map[string]string{
 			"message": "ticket not found",

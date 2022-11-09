@@ -2,30 +2,36 @@ package route
 
 import (
 	"go_mini-project/controller"
-	"net/http"
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 )
 
 func SetupRoute(server *echo.Echo) {
-	server.POST("/mini/kai/pemesan/register", controller.Register)
-	server.POST("/mini/kai/pemesan/login", controller.Login)
+	server.POST("/register", controller.Register)
+	server.POST("/login", controller.Login)
 
-	privateRoutes := server.Group("")
+	ticketRoute := server.Group("")
 
-	privateRoutes.Use(middleware.JWTWithConfig(middleware.JWTConfig{
+	ticketRoute.Use(middleware.JWTWithConfig(middleware.JWTConfig{
 		SigningKey: []byte("SECRET_KEY"),
 	}))
 
-	// TEST
-	privateRoutes.GET("/test", func(c echo.Context) error {
-		return c.String(http.StatusOK, "Authentication Success!")
-	})
+	ticketRoute.GET("/tiket", controller.GetAll)
+	ticketRoute.GET("/tiket/:id", controller.GetByID)
+	ticketRoute.POST("/tiket", controller.Create)
+	ticketRoute.PUT("/tiket/:id", controller.Update)
+	ticketRoute.DELETE("/tiket/:id", controller.Delete)
 
-	privateRoutes.GET("/mini/kai/tiket", controller.GetAll)
-	privateRoutes.GET("/mini/kai/tiket/:id", controller.GetByID)
-	privateRoutes.POST("/mini/kai/tiket", controller.Create)
-	privateRoutes.PUT("/mini/kai/tiket/:id", controller.Update)
-	privateRoutes.DELETE("/mini/kai/tiket/:id", controller.Delete)
+	trainRoute := server.Group("")
+
+	trainRoute.Use(middleware.JWTWithConfig(middleware.JWTConfig{
+		SigningKey: []byte("SECRET_KEY"),
+	}))
+
+	trainRoute.GET("/kereta", controller.GetAllTrain)
+	trainRoute.GET("/kereta/:id", controller.GetTrainByID)
+	trainRoute.POST("/kereta", controller.CreateTrain)
+	trainRoute.PUT("/kereta/:id", controller.UpdateTrain)
+	trainRoute.DELETE("/kereta/:id", controller.DeleteTrain)
 }

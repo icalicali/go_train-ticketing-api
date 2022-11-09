@@ -8,6 +8,11 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
+type AuthenticationMethod interface {
+	Register(input model.Register) model.Pemesan
+	Login(input model.Register) string
+}
+
 type AuthenticationSystem struct{}
 
 func (a *AuthenticationSystem) Register(input model.Register) model.Pemesan {
