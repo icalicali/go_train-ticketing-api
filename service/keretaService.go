@@ -5,6 +5,8 @@ import (
 	"go_mini-project/model"
 )
 
+//trainSvc
+
 type KeretaService struct {
 	Method method.KeretaMethod
 }

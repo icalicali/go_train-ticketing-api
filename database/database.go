@@ -10,6 +10,8 @@ import (
 	"gorm.io/gorm"
 )
 
+//db using gorm
+
 var DB *gorm.DB
 
 var (

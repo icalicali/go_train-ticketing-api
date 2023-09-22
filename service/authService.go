@@ -5,6 +5,8 @@ import (
 	"go_mini-project/model"
 )
 
+//authSvc
+
 type AuthService struct {
 	Method method.AuthenticationMethod
 }

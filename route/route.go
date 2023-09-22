@@ -7,6 +7,8 @@ import (
 	"github.com/labstack/echo/v4/middleware"
 )
 
+//daftarRoute
+
 func SetupRoute(server *echo.Echo) {
 	server.POST("/register", controller.Register)
 	server.POST("/login", controller.Login)

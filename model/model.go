@@ -7,6 +7,8 @@ import (
 	"gorm.io/gorm"
 )
 
+//model
+
 type Tiket struct {
 	ID          uint           `json:"id" gorm:"primarykey"`
 	CreatedAt   time.Time      `json:"created_at"`

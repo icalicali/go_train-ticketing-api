@@ -8,6 +8,8 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
+//server
+
 func main() {
 	database.Connect()
 	server := echo.New()

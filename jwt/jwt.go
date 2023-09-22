@@ -7,6 +7,8 @@ import (
 	"github.com/golang-jwt/jwt/v4"
 )
 
+//jwt token
+
 func CreateToken(userId uint) string {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		"userId": userId,

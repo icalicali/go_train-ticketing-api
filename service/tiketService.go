@@ -5,6 +5,8 @@ import (
 	"go_mini-project/model"
 )
 
+//ticketSvc
+
 type TiketService struct {
 	Method method.TiketMethod
 }

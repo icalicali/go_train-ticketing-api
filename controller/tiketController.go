@@ -8,6 +8,8 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
+//tiketCtrl
+
 var tiketService service.TiketService = service.New()
 
 func GetAll(c echo.Context) error {

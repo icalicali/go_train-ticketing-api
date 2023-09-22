@@ -5,6 +5,8 @@ import (
 	"go_mini-project/model"
 )
 
+
+//method2
 type TiketMethod interface {
 	GetAll() []model.Tiket
 	GetByID(id string) model.Tiket

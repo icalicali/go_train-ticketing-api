@@ -5,6 +5,8 @@ import (
 	"go_mini-project/model"
 )
 
+//method1
+
 type KeretaMethod interface {
 	GetAllTrain() []model.Kereta
 	GetTrainByID(id string) model.Kereta

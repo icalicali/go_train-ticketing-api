@@ -8,6 +8,8 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
+//authCtrl
+
 var authService service.AuthService = service.NewAuthService()
 
 func Register(c echo.Context) error {
