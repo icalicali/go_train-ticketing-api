@@ -1,4 +1,5 @@
 module go_mini-project
+module go_mini-project
 
 go 1.18
 
